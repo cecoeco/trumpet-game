@@ -1,5 +1,37 @@
 import { useState, useEffect } from "react";
 
+import C6 from "./assets/trumpet/C6.mp3";
+import B5 from "./assets/trumpet/B5.mp3";
+import Bb5 from "./assets/trumpet/Bb5.mp3";
+import A5 from "./assets/trumpet/A5.mp3";
+import Ab5 from "./assets/trumpet/Ab5.mp3";
+import G5 from "./assets/trumpet/G5.mp3";
+import Gb5 from "./assets/trumpet/Gb5.mp3";
+import F5 from "./assets/trumpet/F5.mp3";
+import E5 from "./assets/trumpet/E5.mp3";
+import Eb5 from "./assets/trumpet/Eb5.mp3";
+import D5 from "./assets/trumpet/D5.mp3";
+import Db5 from "./assets/trumpet/Db5.mp3";
+import C5 from "./assets/trumpet/C5.mp3";
+import B4 from "./assets/trumpet/B4.mp3";
+import Bb4 from "./assets/trumpet/Bb4.mp3";
+import A4 from "./assets/trumpet/A4.mp3";
+import Ab4 from "./assets/trumpet/Ab4.mp3";
+import G4 from "./assets/trumpet/G4.mp3";
+import Gb4 from "./assets/trumpet/Gb4.mp3";
+import F4 from "./assets/trumpet/F4.mp3";
+import E4 from "./assets/trumpet/E4.mp3";
+import Eb4 from "./assets/trumpet/Eb4.mp3";
+import D4 from "./assets/trumpet/D4.mp3";
+import Db4 from "./assets/trumpet/Db4.mp3";
+import C4 from "./assets/trumpet/C4.mp3";
+import B3 from "./assets/trumpet/B3.mp3";
+import Bb3 from "./assets/trumpet/Bb3.mp3";
+import A3 from "./assets/trumpet/A3.mp3";
+import Ab3 from "./assets/trumpet/Ab3.mp3";
+import G3 from "./assets/trumpet/G3.mp3";
+import Gb3 from "./assets/trumpet/Gb3.mp3";
+
 export function App() {
   const [valveState, setValveState] = useState({
     i: false,
@@ -21,37 +53,37 @@ export function App() {
   };
 
   const audioFiles: { [key: string]: string } = {
-    C6: "/src/assets/trumpet/C6.mp3",
-    B5: "/src/assets/trumpet/B5.mp3",
-    Bb5: "/src/assets/trumpet/Bb5.mp3",
-    A5: "/src/assets/trumpet/A5.mp3",
-    Ab5: "/src/assets/trumpet/Ab5.mp3",
-    G5: "/src/assets/trumpet/G5.mp3",
-    Gb5: "/src/assets/trumpet/Gb5.mp3",
-    F5: "/src/assets/trumpet/F5.mp3",
-    E5: "/src/assets/trumpet/E5.mp3",
-    Eb5: "/src/assets/trumpet/Eb5.mp3",
-    D5: "/src/assets/trumpet/D5.mp3",
-    Db5: "/src/assets/trumpet/Db5.mp3",
-    C5: "/src/assets/trumpet/C5.mp3",
-    B4: "/src/assets/trumpet/B4.mp3",
-    Bb4: "/src/assets/trumpet/Bb4.mp3",
-    A4: "/src/assets/trumpet/A4.mp3",
-    Ab4: "/src/assets/trumpet/Ab4.mp3",
-    G4: "/src/assets/trumpet/G4.mp3",
-    Gb4: "/src/assets/trumpet/Gb4.mp3",
-    F4: "/src/assets/trumpet/F4.mp3",
-    E4: "/src/assets/trumpet/E4.mp3",
-    Eb4: "/src/assets/trumpet/Eb4.mp3",
-    D4: "/src/assets/trumpet/D4.mp3",
-    Db4: "/src/assets/trumpet/Db4.mp3",
-    C4: "/src/assets/trumpet/C4.mp3",
-    B3: "/src/assets/trumpet/B3.mp3",
-    Bb3: "/src/assets/trumpet/Bb3.mp3",
-    A3: "/src/assets/trumpet/A3.mp3",
-    Ab3: "/src/assets/trumpet/Ab3.mp3",
-    G3: "/src/assets/trumpet/G3.mp3",
-    Gb3: "/src/assets/trumpet/Gb3.mp3",
+    C6,
+    B5,
+    Bb5,
+    A5,
+    Ab5,
+    G5,
+    Gb5,
+    F5,
+    E5,
+    Eb5,
+    D5,
+    Db5,
+    C5,
+    B4,
+    Bb4,
+    A4,
+    Ab4,
+    G4,
+    Gb4,
+    F4,
+    E4,
+    Eb4,
+    D4,
+    Db4,
+    C4,
+    B3,
+    Bb3,
+    A3,
+    Ab3,
+    G3,
+    Gb3,
   };
 
   const [currentAudio, setCurrentAudio] = useState<HTMLAudioElement | null>(null);
@@ -91,27 +123,24 @@ export function App() {
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      let noteChanged = false;
+
       if (e.code === "Space") {
         if (!valveState.airflow) {
           setValveState((prev) => ({ ...prev, airflow: true }));
-          const note = getNote();
-          if (note) {
-            playNote(note);
-          }
+          noteChanged = true;
         }
       }
 
-      let shouldAnimate = false;
-
       if (e.key === "i") {
         setValveState((prev) => ({ ...prev, i: true }));
-        shouldAnimate = true;
+        noteChanged = true;
       } else if (e.key === "o") {
         setValveState((prev) => ({ ...prev, o: true }));
-        shouldAnimate = true;
+        noteChanged = true;
       } else if (e.key === "p") {
         setValveState((prev) => ({ ...prev, p: true }));
-        shouldAnimate = true;
+        noteChanged = true;
       }
 
       if (e.key === "w") {
@@ -122,6 +151,7 @@ export function App() {
           );
           return { ...prev, partialIndex: newIndex };
         });
+        noteChanged = true;
       }
 
       if (e.key === "s") {
@@ -129,11 +159,12 @@ export function App() {
           const newIndex = Math.max(prev.partialIndex - 1, 0);
           return { ...prev, partialIndex: newIndex };
         });
+        noteChanged = true;
       }
 
-      if (shouldAnimate) {
+      if (noteChanged && valveState.airflow) {
         const note = getNote();
-        if (note && valveState.airflow) {
+        if (note) {
           playNote(note);
         }
       }
@@ -183,7 +214,7 @@ export function App() {
           Press <strong>S</strong> to lower partial
         </div>
         <div className="control">
-          Press <strong>Space</strong> for airflow
+          Press <strong>Space</strong> to blow air
         </div>
       </div>
 

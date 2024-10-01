@@ -1,36 +1,36 @@
 import { useState, useEffect } from "react";
 
-import C6 from "./assets/trumpet/C6.mp3";
-import B5 from "./assets/trumpet/B5.mp3";
-import Bb5 from "./assets/trumpet/Bb5.mp3";
-import A5 from "./assets/trumpet/A5.mp3";
-import Ab5 from "./assets/trumpet/Ab5.mp3";
-import G5 from "./assets/trumpet/G5.mp3";
-import Gb5 from "./assets/trumpet/Gb5.mp3";
-import F5 from "./assets/trumpet/F5.mp3";
-import E5 from "./assets/trumpet/E5.mp3";
-import Eb5 from "./assets/trumpet/Eb5.mp3";
-import D5 from "./assets/trumpet/D5.mp3";
-import Db5 from "./assets/trumpet/Db5.mp3";
-import C5 from "./assets/trumpet/C5.mp3";
-import B4 from "./assets/trumpet/B4.mp3";
-import Bb4 from "./assets/trumpet/Bb4.mp3";
-import A4 from "./assets/trumpet/A4.mp3";
-import Ab4 from "./assets/trumpet/Ab4.mp3";
-import G4 from "./assets/trumpet/G4.mp3";
-import Gb4 from "./assets/trumpet/Gb4.mp3";
-import F4 from "./assets/trumpet/F4.mp3";
-import E4 from "./assets/trumpet/E4.mp3";
-import Eb4 from "./assets/trumpet/Eb4.mp3";
-import D4 from "./assets/trumpet/D4.mp3";
-import Db4 from "./assets/trumpet/Db4.mp3";
-import C4 from "./assets/trumpet/C4.mp3";
-import B3 from "./assets/trumpet/B3.mp3";
-import Bb3 from "./assets/trumpet/Bb3.mp3";
-import A3 from "./assets/trumpet/A3.mp3";
-import Ab3 from "./assets/trumpet/Ab3.mp3";
-import G3 from "./assets/trumpet/G3.mp3";
-import Gb3 from "./assets/trumpet/Gb3.mp3";
+import C6 from "./assets/audio/C6.mp3";
+import B5 from "./assets/audio/B5.mp3";
+import Bb5 from "./assets/audio/Bb5.mp3";
+import A5 from "./assets/audio/A5.mp3";
+import Ab5 from "./assets/audio/Ab5.mp3";
+import G5 from "./assets/audio/G5.mp3";
+import Gb5 from "./assets/audio/Gb5.mp3";
+import F5 from "./assets/audio/F5.mp3";
+import E5 from "./assets/audio/E5.mp3";
+import Eb5 from "./assets/audio/Eb5.mp3";
+import D5 from "./assets/audio/D5.mp3";
+import Db5 from "./assets/audio/Db5.mp3";
+import C5 from "./assets/audio/C5.mp3";
+import B4 from "./assets/audio/B4.mp3";
+import Bb4 from "./assets/audio/Bb4.mp3";
+import A4 from "./assets/audio/A4.mp3";
+import Ab4 from "./assets/audio/Ab4.mp3";
+import G4 from "./assets/audio/G4.mp3";
+import Gb4 from "./assets/audio/Gb4.mp3";
+import F4 from "./assets/audio/F4.mp3";
+import E4 from "./assets/audio/E4.mp3";
+import Eb4 from "./assets/audio/Eb4.mp3";
+import D4 from "./assets/audio/D4.mp3";
+import Db4 from "./assets/audio/Db4.mp3";
+import C4 from "./assets/audio/C4.mp3";
+import B3 from "./assets/audio/B3.mp3";
+import Bb3 from "./assets/audio/Bb3.mp3";
+import A3 from "./assets/audio/A3.mp3";
+import Ab3 from "./assets/audio/Ab3.mp3";
+import G3 from "./assets/audio/G3.mp3";
+import Gb3 from "./assets/audio/Gb3.mp3";
 
 export default function App() {
   const [valveState, setValveState] = useState({
@@ -193,8 +193,19 @@ export default function App() {
   }, [valveState]);
 
   return (
-    <div>
-      <h1>Trumpet Hero 🎺</h1>
+    <>
+      <div className="valves">
+        <div id="valve1" className={`valve ${valveState.i ? "pressed" : ""}`}>
+          I
+        </div>
+        <div id="valve2" className={`valve ${valveState.o ? "pressed" : ""}`}>
+          O
+        </div>
+        <div id="valve3" className={`valve ${valveState.p ? "pressed" : ""}`}>
+          P
+        </div>
+      </div>
+
       <div className="controls">
         <div className="control">
           Press <strong>I</strong> for 1st Valve
@@ -215,18 +226,6 @@ export default function App() {
           Press <strong>Space</strong> to blow air
         </div>
       </div>
-
-      <div className="valves">
-        <div id="valve1" className={`valve ${valveState.i ? "pressed" : ""}`}>
-          I
-        </div>
-        <div id="valve2" className={`valve ${valveState.o ? "pressed" : ""}`}>
-          O
-        </div>
-        <div id="valve3" className={`valve ${valveState.p ? "pressed" : ""}`}>
-          P
-        </div>
-      </div>
-    </div>
+    </>
   );
 }

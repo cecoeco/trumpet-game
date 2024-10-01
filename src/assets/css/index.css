@@ -12,7 +12,7 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
-  color: black;
+  color: hsl(20, 5%, 30%);
   background-color: hsl(0, 0%, 100%);
 }
 
@@ -25,10 +25,17 @@
 html, body, #root {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
   width: 100%;
   height: 100%;
+}
+
+html, body {
+  justify-content: center;
+}
+
+#root {
+  justify-content: space-evenly;
 }
 
 * {
@@ -49,13 +56,12 @@ body {
   height: 100vh;
 }
 
-h1 {
-  color: hsl(30, 50%, 70%);
-  font-size: 3rem;
-}
-
 .controls {
   margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 1.1rem;
 }
 
 .controls div {
@@ -68,11 +74,11 @@ h1 {
 }
 
 .valve {
-  width: 50px;
-  height: 50px;
+  width: 65px;
+  height: 65px;
   border-radius: 50%;
   background: radial-gradient(circle, hsl(30, 30%, 45%), hsl(30, 50%, 70%));
-  margin: 0 10px;
+  margin: 0 15px;
   transition: transform 0.1s ease;
   box-shadow: 0px 3px 6px hsla(0, 0%, 0%, 0.1);
 }

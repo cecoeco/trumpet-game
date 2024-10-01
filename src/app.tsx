@@ -42,7 +42,7 @@ export default function App() {
   });
 
   const partialsMap: { [key: string]: string[] } = {
-    "000": ["C4", "G4", "C5", "E5", "G5", "C6"], // 0 steps
+    "000": ["C4", "G4", "C5", "E5", "G5", "C6"], // Open (0 steps)
     "010": ["B3", "Gb4", "B4", "Eb5", "Gb5", "B5"], // 0.5 steps
     "100": ["Bb3", "F4", "Bb4", "D5", "F5", "Bb5"], // 1 step
     "001": ["A3", "E4", "A4", "Db5", "E5", "A5"], // 1.5 steps
@@ -116,15 +116,12 @@ export default function App() {
       currentAudio.pause();
       currentAudio.currentTime = 0;
     }
-
     const audio = currentAudioFiles[note];
     if (!audio) {
       console.error(`No audio file found for note: ${note}`);
       return;
     }
-
     setCurrentAudio(audio);
-
     audio.play();
   };
 
@@ -143,6 +140,8 @@ export default function App() {
         if (!valveState.airflow) {
           setValveState((prev) => ({ ...prev, airflow: true }));
           noteChanged = true;
+          const note = getNote();
+          playNote(note);
         }
       }
 

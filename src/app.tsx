@@ -134,29 +134,17 @@ export default function App() {
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      let noteChanged = false;
-
-      if (e.code === "Space") {
-        if (!valveState.airflow) {
-          setValveState((prev) => ({ ...prev, airflow: true }));
-          noteChanged = true;
-          const note = getNote();
-          playNote(note);
-        }
+      if (e.code === "Space" && !valveState.airflow) {
+        setValveState((prev) => ({ ...prev, airflow: true }));
       }
 
-      if (e.key === "i") {
+      if (e.key === "i" && !valveState.i) {
         setValveState((prev) => ({ ...prev, i: true }));
-        noteChanged = true;
-      } else if (e.key === "o") {
+      } else if (e.key === "o" && !valveState.o) {
         setValveState((prev) => ({ ...prev, o: true }));
-        noteChanged = true;
-      } else if (e.key === "p") {
+      } else if (e.key === "p" && !valveState.p) {
         setValveState((prev) => ({ ...prev, p: true }));
-        noteChanged = true;
-      }
-
-      if (e.key === "w") {
+      } else if (e.key === "w") {
         setValveState((prev) => {
           const newIndex = Math.min(
             prev.partialIndex + 1,
@@ -164,43 +152,25 @@ export default function App() {
           );
           return { ...prev, partialIndex: newIndex };
         });
-        noteChanged = true;
       } else if (e.key === "s") {
         setValveState((prev) => {
           const newIndex = Math.max(prev.partialIndex - 1, 0);
           return { ...prev, partialIndex: newIndex };
         });
-        noteChanged = true;
-      }
-
-      if (noteChanged && valveState.airflow) {
-        const note = getNote();
-        playNote(note);
       }
     };
 
     const handleKeyUp = (e: KeyboardEvent) => {
-      let noteChanged = false;
-
       if (e.code === "Space") {
         setValveState((prev) => ({ ...prev, airflow: false }));
-        stopNote();
       }
 
       if (e.key === "i") {
         setValveState((prev) => ({ ...prev, i: false }));
-        noteChanged = true;
       } else if (e.key === "o") {
         setValveState((prev) => ({ ...prev, o: false }));
-        noteChanged = true;
       } else if (e.key === "p") {
         setValveState((prev) => ({ ...prev, p: false }));
-        noteChanged = true;
-      }
-
-      if (noteChanged && valveState.airflow) {
-        const note = getNote();
-        playNote(note);
       }
     };
 
@@ -211,7 +181,16 @@ export default function App() {
       window.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("keyup", handleKeyUp);
     };
-  }, [valveState, currentAudioFiles]);
+  }, [valveState]);
+
+  useEffect(() => {
+    if (valveState.airflow) {
+      const note = getNote();
+      playNote(note);
+    } else {
+      stopNote();
+    }
+  }, [valveState]);
 
   return (
     <div>

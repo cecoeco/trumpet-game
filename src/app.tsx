@@ -32,7 +32,7 @@ import Ab3 from "./assets/trumpet/Ab3.mp3";
 import G3 from "./assets/trumpet/G3.mp3";
 import Gb3 from "./assets/trumpet/Gb3.mp3";
 
-export function App() {
+export default function App() {
   const [valveState, setValveState] = useState({
     i: false,
     o: false,
@@ -87,6 +87,21 @@ export function App() {
   };
 
   const [currentAudio, setCurrentAudio] = useState<HTMLAudioElement | null>(null);
+  const [currentAudioFiles, setCurrentAudioFiles] = useState<{
+    [key: string]: HTMLAudioElement;
+  }>({});
+
+  useEffect(() => {
+    const preloadedAudioFiles: { [key: string]: HTMLAudioElement } = {};
+
+    Object.keys(audioFiles).forEach((note) => {
+      const audio = new Audio(audioFiles[note]);
+      audio.loop = true;
+      preloadedAudioFiles[note] = audio;
+    });
+
+    setCurrentAudioFiles(preloadedAudioFiles);
+  }, []);
 
   const getNote = () => {
     const { i, o, p, partialIndex } = valveState;
@@ -102,15 +117,14 @@ export function App() {
       currentAudio.currentTime = 0;
     }
 
-    const audioFile = audioFiles[note];
-    if (!audioFile) {
+    const audio = currentAudioFiles[note];
+    if (!audio) {
       console.error(`No audio file found for note: ${note}`);
       return;
     }
 
-    const audio = new Audio(audioFile);
     setCurrentAudio(audio);
-    audio.loop = true;
+
     audio.play();
   };
 
@@ -152,9 +166,7 @@ export function App() {
           return { ...prev, partialIndex: newIndex };
         });
         noteChanged = true;
-      }
-
-      if (e.key === "s") {
+      } else if (e.key === "s") {
         setValveState((prev) => {
           const newIndex = Math.max(prev.partialIndex - 1, 0);
           return { ...prev, partialIndex: newIndex };
@@ -164,13 +176,13 @@ export function App() {
 
       if (noteChanged && valveState.airflow) {
         const note = getNote();
-        if (note) {
-          playNote(note);
-        }
+        playNote(note);
       }
     };
 
     const handleKeyUp = (e: KeyboardEvent) => {
+      let noteChanged = false;
+
       if (e.code === "Space") {
         setValveState((prev) => ({ ...prev, airflow: false }));
         stopNote();
@@ -178,10 +190,18 @@ export function App() {
 
       if (e.key === "i") {
         setValveState((prev) => ({ ...prev, i: false }));
+        noteChanged = true;
       } else if (e.key === "o") {
         setValveState((prev) => ({ ...prev, o: false }));
+        noteChanged = true;
       } else if (e.key === "p") {
         setValveState((prev) => ({ ...prev, p: false }));
+        noteChanged = true;
+      }
+
+      if (noteChanged && valveState.airflow) {
+        const note = getNote();
+        playNote(note);
       }
     };
 
@@ -192,7 +212,7 @@ export function App() {
       window.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("keyup", handleKeyUp);
     };
-  }, [valveState]);
+  }, [valveState, currentAudioFiles]);
 
   return (
     <div>
@@ -232,5 +252,3 @@ export function App() {
     </div>
   );
 }
-
-export default App;
